@@ -1,18 +1,19 @@
 var fluxGen = require('../lib/fluxGen');
 
-function getRand () {
+function getRand() {
   return +(Math.random() * 100).toFixed(0);
 }
 
-function Pizza (startingDate, quotes, ticker, name, startingQuote, variability, positivity) {
-  var self = this;
+//Spread syntax spreads the list of parameters into an array
+function Pizza(startingDate, quotes, ...pizzaProps) {
+  // var self = this;
 
   this.startingDate = startingDate;
-  this.ticker = ticker;
-  this.name = name;
-  this.startingQuote = startingQuote;
-  this.variability = variability || getRand();
-  this.positivity = positivity || getRand();
+  this.ticker = pizzaProps[0];
+  this.name = pizzaProps[1];
+  this.startingQuote = pizzaProps[2];
+  this.variability = pizzaProps[3] || getRand();
+  this.positivity = pizzaProps[4] || getRand();
   this.quotes = quotes || [this.startingQuote];
 
   this.getNext = function () {
@@ -38,12 +39,12 @@ function Pizza (startingDate, quotes, ticker, name, startingQuote, variability, 
   };
 
   // private methods
-  function addQuote (quote) {
-    self.quotes.push(quote);
+  var addQuote = (quote) => {
+    this.quotes.push(quote);
   }
 
-  function getQuote (quoteIndex) {
-    return self.quotes[quoteIndex];
+  var getQuote = (quoteIndex) => {
+    this.quotes[quoteIndex];
   }
 }
 
@@ -60,5 +61,6 @@ Pizza.hydrate = function (pizzaObj) {
   newPizza.quotes = pizzaObj.quotes;
   return newPizza;
 };
+
 
 module.exports = Pizza;

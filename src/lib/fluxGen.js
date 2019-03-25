@@ -1,4 +1,6 @@
-function fluxGenerator (seed, times, variability, positivity) {
+//Assigned the module.exports without the name fluxGenerator
+//This was made into a arrow function
+module.exports = (seed, times, variability, positivity) => {
   var output = [],
     current = seed,
     change;
@@ -16,4 +18,4 @@ function fluxGenerator (seed, times, variability, positivity) {
   return output;
 };
 
-module.exports = fluxGenerator;
+

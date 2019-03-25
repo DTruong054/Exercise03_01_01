@@ -21,7 +21,7 @@ server.connection({ port: port });
 var io = require('socket.io')(server.listener);
 require('./events').register(io);
 
-server.register([require('inert'), require('vision')], function (err) {
+server.register([require('inert'), require('vision')], (err) => {
   if (err) throw err;
 
   server.views({
