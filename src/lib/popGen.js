@@ -81,8 +81,9 @@ function _percentOf (val1, val2) {
 }
 
 module.exports = {
-  getPopularSlices: getPopularSlices,
-  getMostPopular: getMostPopular,
-  getNewestSlice: getNewestSlice,
-  getMostImproved: getMostImproved
+  //When the names are the same, there is no need for extra
+  getPopularSlices,
+  getMostPopular,
+  getNewestSlice,
+  getMostImproved
 };

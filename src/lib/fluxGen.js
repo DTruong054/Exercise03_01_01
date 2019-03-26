@@ -1,12 +1,12 @@
 //Assigned the module.exports without the name fluxGenerator
 //This was made into a arrow function
 module.exports = (seed, times, variability, positivity) => {
-  var output = [],
-    current = seed,
-    change;
+  //Making a const so we can't change later
+  const output = [];
+  let current = seed;
 
   for (var i = 0; i < times; i++) {
-    change = (Math.random() * variability).toFixed(0);
+    let change = (Math.random() * variability).toFixed(0);
     if ((Math.random() * positivity) <= (positivity / 2)) {
       change = -change;
     } else {
@@ -17,5 +17,3 @@ module.exports = (seed, times, variability, positivity) => {
   }
   return output;
 };
-
-

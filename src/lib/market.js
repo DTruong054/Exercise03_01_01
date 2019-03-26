@@ -3,7 +3,8 @@ var quoteManager = require('./quoteManager');
 var runInterval;
 
 module.exports = {
-  run: function (socket) {
+  //Run is getting the value of this function, the stop pair is getting the value of this without parameters
+  run (socket) {
     runInterval = setInterval(function () {
       quoteManager.updateQuotes(function (err, newData) {
         socket.emit('new_data', JSON.stringify(newData));

@@ -1,34 +1,45 @@
 var fluxGen = require('../lib/fluxGen');
 
 function getRand() {
-  return +(Math.random() * 100).toFixed(0);
+  return +(Math.random() * 10000).toFixed(0);
 }
 
 //Spread syntax spreads the list of parameters into an array
-function Pizza(startingDate, quotes, ...pizzaProps) {
+class Pizza {
   // var self = this;
+  constructor(startingDate, quotes, ...pizzaProps) {
+    this.startingDate = startingDate;
+    //When you want to destructuring you need to put what you want to destructuring into array brackets.
+    //If you are destructuring from an array, you need to have []
+    [this.ticker, this.name, this.startingQuote, this.variability = getRand(), this.positivity = getRand()] = pizzaProps;
+    this.quotes = quotes || [this.startingQuote];
+  }
+  // private methods
+  //Can't be gotten to from outside the class
+  _addQuote(quote) {
+    return this.quotes.push(quote);
+  }
 
-  this.startingDate = startingDate;
-  this.ticker = pizzaProps[0];
-  this.name = pizzaProps[1];
-  this.startingQuote = pizzaProps[2];
-  this.variability = pizzaProps[3] || getRand();
-  this.positivity = pizzaProps[4] || getRand();
-  this.quotes = quotes || [this.startingQuote];
+  _getQuote (quoteIndex) {
+    return this.quotes[quoteIndex];
+  }
 
-  this.getNext = function () {
+  //Public Methods
+  //This is to allow all user to call
+  getNext () {
     var newQuote = fluxGen(this.getLast(), 1, this.variability, this.positivity)[0];
-    addQuote(newQuote);
+    this._addQuote(newQuote);
     return newQuote;
   };
 
-  this.getLast = function () {
-    return getQuote(this.quotes.length - 1);
+  getLast () {
+    return this._getQuote(this.quotes.length - 1);
   };
 
-  this.getDatedQuotes = function () {
+  getDatedQuotes () {
     var quotesMap = {},
-      curDate = startingDate;
+    //This knows to destructure because it has {} around it
+      { startingDate: curDate } = this;
 
     this.quotes.forEach(function (quote) {
       quotesMap[curDate] = quote;
@@ -37,15 +48,6 @@ function Pizza(startingDate, quotes, ...pizzaProps) {
 
     return quotesMap;
   };
-
-  // private methods
-  var addQuote = (quote) => {
-    this.quotes.push(quote);
-  }
-
-  var getQuote = (quoteIndex) => {
-    this.quotes[quoteIndex];
-  }
 }
 
 Pizza.hydrate = function (pizzaObj) {

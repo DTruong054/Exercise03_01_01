@@ -1,7 +1,9 @@
 var api = require('./api');
 
 module.exports = {
-  updateQuotes: function (callback) {
+  //This is holding a function
+  //This doesn't need the function call, since the code can tell that this is already a function.
+  updateQuotes (callback) {
     api.getAllPizzas(function (err, pizzas) {
       var newData = [],
         pizza;
