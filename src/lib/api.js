@@ -3,11 +3,11 @@ var request = require('request'),
 
 var localPort;
 
-function initPort (port) {
+function initPort(port) {
   localPort = port;
 }
 
-function getAllQuotes (callback) {
+function getAllQuotes(callback) {
   request('http://localhost:' + localPort + '/quotes', function (error, res, body) {
     if (callback) {
       callback(error, JSON.parse(body));
@@ -15,15 +15,21 @@ function getAllQuotes (callback) {
   });
 }
 
-function getPizza (ticker, callback) {
-  request('http://localhost:' + localPort + '/pizza/' + ticker, function (error, res, body) {
-    if (callback) {
-      callback(error, Pizza.hydrate(JSON.parse(body)));
-    }
+//Removed callback for a promise
+function getPizza(ticker) {
+//This is a promise
+  return new Promise((resolve, reject) =>{
+    request('http://localhost:' + localPort + '/pizza/' + ticker, function (error, res, body) {
+      if (error) {
+        reject(error);
+      } else {
+        resolve(Pizza.hydrate(JSON.parse(body)));
+      }
+    });
   });
 }
 
-function getAllPizzas (callback) {
+function getAllPizzas(callback) {
   request('http://localhost:' + localPort + '/pizzas', function (error, res, body) {
     if (callback) {
       var staticPizzas = JSON.parse(body),

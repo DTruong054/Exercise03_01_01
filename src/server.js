@@ -36,6 +36,8 @@ server.register([require('inert'), require('vision')], (err) => {
   server.route(require('./routes'));
   server.start(function (err) {
     if (err) throw err;
-    console.log('Connected on ' + server.info.uri);
+    //This is a templete string. 
+    //Template literals are string literals allowing embedded expressions. You can use multi-line strings and string interpolation features with them
+    console.log(`Connected on  ${server.info.uri}`);
   });
 });

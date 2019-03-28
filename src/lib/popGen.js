@@ -1,24 +1,28 @@
 var api = require('./api'),
   _ = require('lodash');
 
-function getPopularSlices (callback) {
-  _getFinalQuotes(function (err, finalQuotes) {
-    var orderedQuotes = _.orderBy(finalQuotes, ['quote'], ['desc']);
+function getPopularSlices(callback) {
+  return new Promise((resolve, reject) => {
+    _getFinalQuotes()
+      .then((finalQuotes) => {
+      const orderedQuotes = _.orderBy(finalQuotes, ['quote'], ['desc']);
 
-    if (callback) {
-      callback(null, _.take(orderedQuotes, 4));
-    }
+      resolve(_.take(orderedQuotes, 4));
+    })
+    .catch(reject);
   });
 }
 
-function getMostPopular (callback) {
+function getMostPopular(callback) {
   _getFinalQuotes(function (err, finalQuotes) {
     var mostPopular = finalQuotes.reduce(function (best, curr) {
       if (curr.quote > best.quote) {
         return curr;
       }
       return best;
-    }, { quote: 0 });
+    }, {
+      quote: 0
+    });
 
     if (callback) {
       callback(null, mostPopular);
@@ -26,15 +30,22 @@ function getMostPopular (callback) {
   });
 }
 
-function getNewestSlice (callback) {
-  api.getPizza('HAWA', function (err, pizza) {
-    if (callback) {
-      callback(null, { ticker: 'HAWA', quote: pizza.getLast() });
-    }
-  });
+function getNewestSlice(callback) {
+  api.getPizza('HAWA')
+    .then((pizza) => {
+      if (callback) {
+        callback(null, {
+          ticker: 'HAWA',
+          quote: pizza.getLast()
+        });
+      }
+    })
+    .catch((err) => {
+      callback(err);
+    });
 }
 
-function getMostImproved (callback) {
+function getMostImproved(callback) {
   api.getAllQuotes(function (err, allQuotes) {
     var diffQuotes = [],
       mostImproved;
@@ -51,7 +62,9 @@ function getMostImproved (callback) {
         return curr;
       }
       return best;
-    }, { diff: 0});
+    }, {
+      diff: 0
+    });
 
     if (callback) {
       callback(null, mostImproved);
@@ -59,7 +72,7 @@ function getMostImproved (callback) {
   });
 }
 
-function _getFinalQuotes (callback) {
+function _getFinalQuotes(callback) {
   var finalQuotes = [];
   api.getAllQuotes(function (err, allQuotes) {
     for (var key in allQuotes) {
@@ -76,7 +89,7 @@ function _getFinalQuotes (callback) {
   });
 }
 
-function _percentOf (val1, val2) {
+function _percentOf(val1, val2) {
   return (val2 - val1) / val1;
 }
 
