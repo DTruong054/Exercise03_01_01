@@ -19,10 +19,10 @@ Promise.all(promises)
   //Results is suppose to fill in  the context object
   const context = {
     popSlices: results[0],
-    mostPopular: results[0],
-    newestSlice: results[0],
-    mostImproved: results[0],
-    pizzas: results[0]
+    mostPopular: results[1],
+    newestSlice: results[2],
+    mostImproved: results[3],
+    pizzas: results[4]
   };
   return reply.view('index', context)
 })

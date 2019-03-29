@@ -3,36 +3,47 @@ var Pizza = require('../models/pizza');
 var data = {};
 
 // initialize data store with bootstrapped data
-function init () {
+function init() {
   data.quotes = require('../mock/quotes');
   initPizzas(function (pizzas) {
     data.pizzas = pizzas;
   });
 }
 
-function getQuotes (ticker) {
+function getQuotes(ticker) {
   return data.quotes[ticker];
 }
 
-function getAllQuotes (callback) {
-  if (callback) {
-    callback(null, data.quotes);
-  }
+function getAllQuotes() {
+  return new Promise((resolve) => {
+    resolve(data.quotes);
+  })
 }
 
-function getPizzas (callback) {
-  if (callback) {
-    callback(null, data.pizzas);
-  }
+/** STEPS TO CONVERT
+ * Get rid of callback
+ * Create a return nre Promise
+ * Add resolve, and reject with an arrow function
+ * Copy and paste code.
+ * Switch var to const
+ * Create a arrow function
+ * Copy and paste code
+ * Change callback to resolve and delete the null
+ * Add a .catch(reject)
+ */
+function getPizzas() {
+  return new Promise((resolve) => {
+    resolve(data.pizzas);
+  })
 }
 
-function getPizza (ticker, callback) {
-  if (callback) {
-    callback(null, data.pizzas[ticker]);
-  }
+function getPizza(ticker) {
+  return new Promise((resolve, reject) => {
+    resolve(data.pizzas[ticker]);
+  })
 }
 
-function initPizzas (callback) {
+function initPizzas(callback) {
   var pizzas = require('../mock/pizzas'),
     realPizzas = {},
     startingDate = new Date();
