@@ -1,5 +1,6 @@
 var api = require('./api'),
-  _ = require('lodash');
+  _ = require('lodash'),
+  itrObject = require('../../generators/itrObject');
 
 function getPopularSlices() {
   return new Promise((resolve, reject) => {
@@ -63,11 +64,11 @@ function getMostImproved() {
     api.getAllQuotes()
     .then((allQuotes) => {
       const diffQuotes = [];
-      for (var key in allQuotes) {
+      for (const prop in itrObject(allQuotes)) { //No longer needs key prop goes though all the properties of an object
         diffQuotes.push({
-          ticker: key,
-          diff: allQuotes[key][allQuotes[key].length - 1] - allQuotes[key][0],
-          quote: allQuotes[key][allQuotes[key].length - 1]
+          ticker: prop.key,
+          diff: prop.val[prop.val.length - 1] - allQuotes[key][0],
+          quote: prop.vals[prop.val.length - 1]
         });
       }
   
