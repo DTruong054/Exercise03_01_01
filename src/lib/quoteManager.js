@@ -7,16 +7,13 @@ module.exports = {
       //This is getting converted to a promise
       //Promises are used to better async programming
       return new Promise((resolve, reject) => {
-          api.getAllPizzas() {
+          api.getAllPizzas() 
             .then((pizzas) => {
                 //If the var is declared locally scope it locally
                 const newData = [];
                 let pizza;
 
                 //This is err trapping
-                if (err) {
-                  reject(err);
-                } else {
                   for (const key in pizzas) {
                     pizza = pizzas[key];
                     //Replacing callback 
@@ -31,7 +28,6 @@ module.exports = {
                   //sucess
                   resolve(newData);
                   // callback(null, newData);
-                }
               })
               .catch(reject);
           });

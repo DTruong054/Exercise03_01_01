@@ -5,7 +5,7 @@ function getPopularSlices() {
   return new Promise((resolve, reject) => {
     _getFinalQuotes()
       .then((finalQuotes) => {
-      const orderedQuotes = _.orderBy(finalQuotes, ['quote'], ['desc']);
+      const orderedQuotes = _.orderBy([...finalQuotes], ['quote'], ['desc']);
 
       resolve(_.take(orderedQuotes, 4));
     })
@@ -17,7 +17,8 @@ function getMostPopular() {
   return new Promise((resolve, reject) => {
     _getFinalQuotes()
     .then((finalQuotes) => {
-      const mostPopular = finalQuotes.reduce(function (best, curr) {
+      //This will depreciate the finalQuotes function
+      const mostPopular = [...finalQuotes].reduce(function (best, curr) {
         if (curr.quote > best.quote) {
           return curr;
         }
@@ -83,10 +84,11 @@ function getMostImproved() {
 }
 
 function _getFinalQuotes() {
-  .then((allQuotes) => {
     return new Promise((resolve, reject) => {
       const finalQuotes = [];
-    api.getAllQuotes(function (err, allQuotes) {
+    api.getAllQuotes() 
+    //This 
+      .then((allQuotes) => {
       for (var key in allQuotes) {
         finalQuotes.push({
           ticker: key,
@@ -98,7 +100,7 @@ function _getFinalQuotes() {
   })
   .catch(reject);
   });
-}
+};
 
 function _percentOf(val1, val2) {
   return (val2 - val1) / val1;

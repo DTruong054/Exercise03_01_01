@@ -38,13 +38,15 @@ class Pizza {
 
   getDatedQuotes () {
     var quotesMap = {},
-    //This knows to destructure because it has {} around it
+    //This knows to destruct because it has {} around it
       { startingDate: curDate } = this;
 
-    this.quotes.forEach(function (quote) {
+    // this.quotes.forEach(function (quote) {
+      for (const quote of this.quotes) {
       quotesMap[curDate] = quote;
       curDate.setDate(curDate.getDate() + 1);
-    });
+      }
+    // });
 
     return quotesMap;
   };
